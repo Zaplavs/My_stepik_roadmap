@@ -6,256 +6,422 @@
     <title>Roadmaps | Александр Заплавный</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-grad-start: #0f1115;
-            --bg-grad-end: #1a1d24;
-            --card-bg: rgba(35, 38, 45, 0.7);
-            --card-border: rgba(255, 255, 255, 0.08);
+            --primary: #10b981;
+            --primary-glow: rgba(16, 185, 129, 0.4);
+            --secondary: #6366f1;
+            --bg-dark: #0a0e1a;
+            --bg-card: rgba(20, 25, 40, 0.6);
             --text-main: #ffffff;
-            --text-secondary: #94a3b8;
-            --accent: #22c55e; /* Bright Green */
-            --accent-glow: rgba(34, 197, 94, 0.4);
-            --arrow-color: #475569;
+            --text-muted: #94a3b8;
+            --border: rgba(255, 255, 255, 0.1);
+            --glow-purple: rgba(139, 92, 246, 0.3);
+            --glow-cyan: rgba(6, 182, 212, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background: radial-gradient(circle at top center, #1e293b 0%, #0f1115 100%);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-dark);
             color: var(--text-main);
-            margin: 0;
-            padding: 0;
-            line-height: 1.6;
-            min-height: 100vh;
-        }
-
-        /* --- HEADER & HERO --- */
-        header {
-            padding: 60px 20px;
-            text-align: center;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.2), transparent);
+            overflow-x: hidden;
             position: relative;
-            overflow: hidden;
         }
 
-        /* Background accent blur */
-        header::before {
+        /* Animated gradient background */
+        body::before {
             content: '';
-            position: absolute;
-            top: -50%;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 600px;
-            height: 400px;
-            background: var(--accent);
-            filter: blur(120px);
-            opacity: 0.15;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(6, 182, 212, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.1) 0%, transparent 70%);
+            z-index: -2;
+            animation: gradientShift 20s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.1); }
+        }
+
+        /* Floating particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             z-index: -1;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--primary);
             border-radius: 50%;
+            opacity: 0.3;
+            animation: float 20s infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); opacity: 0; }
+            10% { opacity: 0.3; }
+            90% { opacity: 0.3; }
+            100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; }
+        }
+
+        /* Header */
+        header {
+            padding: 80px 20px 60px;
+            text-align: center;
+            position: relative;
+            z-index: 10;
         }
 
         .avatar-container {
             position: relative;
             display: inline-block;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
+            animation: fadeInScale 1s ease-out;
+        }
+
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .avatar-glow {
+            position: absolute;
+            inset: -20px;
+            background: conic-gradient(from 0deg, var(--primary), var(--secondary), var(--primary));
+            border-radius: 50%;
+            animation: rotate 8s linear infinite;
+            filter: blur(20px);
+            opacity: 0.5;
+            z-index: -1;
+        }
+
+        @keyframes rotate {
+            100% { transform: rotate(360deg); }
         }
 
         .avatar {
-            width: 140px;
-            height: 140px;
+            width: 160px;
+            height: 160px;
             border-radius: 50%;
-            border: 3px solid rgba(255,255,255,0.1);
-            padding: 4px;
-            background: rgba(255,255,255,0.05);
+            border: 4px solid rgba(255, 255, 255, 0.1);
             object-fit: cover;
-            box-shadow: 0 0 30px var(--accent-glow);
-            transition: transform 0.3s ease;
+            position: relative;
+            z-index: 2;
+            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            cursor: pointer;
         }
 
         .avatar:hover {
-            transform: scale(1.05);
-            border-color: var(--accent);
+            transform: scale(1.1) rotate(5deg);
         }
 
         .profile-info h1 {
-            font-size: 2.5rem;
-            font-weight: 800;
-            margin: 0;
-            letter-spacing: -0.02em;
-            background: linear-gradient(to right, #fff, #cbd5e1);
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 900;
+            margin: 0 0 15px;
+            background: linear-gradient(135deg, #fff 0%, var(--primary) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .description {
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 30px;
+            font-size: 1.15rem;
+            line-height: 1.6;
+            animation: fadeInUp 1s ease-out 0.4s both;
         }
 
         .profile-actions {
-            margin-top: 15px;
             display: flex;
             justify-content: center;
             gap: 15px;
+            flex-wrap: wrap;
+            animation: fadeInUp 1s ease-out 0.6s both;
         }
 
         .btn-profile {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 10px 20px;
-            border-radius: 30px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            padding: 14px 30px;
+            border-radius: 50px;
             color: white;
             text-decoration: none;
             font-weight: 600;
-            font-size: 0.95rem;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(5px);
+            font-size: 1rem;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-profile::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            opacity: 0;
+            transition: opacity 0.4s;
+            z-index: -1;
         }
 
         .btn-profile:hover {
-            background: var(--accent);
-            border-color: var(--accent);
-            box-shadow: 0 0 15px var(--accent-glow);
-            transform: translateY(-2px);
-            color: #000;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 40px var(--primary-glow);
+            border-color: var(--primary);
         }
 
-        .description {
-            color: var(--text-secondary);
-            max-width: 600px;
-            margin: 15px auto 0;
-            font-size: 1.1rem;
+        .btn-profile:hover::before {
+            opacity: 1;
         }
 
-        /* --- GRID SYSTEM --- */
+        /* Container */
         .container {
-            max-width: 1280px;
-            margin: 0 auto 60px;
-            padding: 0 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px 80px;
         }
 
         .tracks-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
-            gap: 40px;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 30px;
             align-items: start;
         }
 
-        /* --- TRACK COLUMN --- */
+        /* Track column */
         .track {
-            background: rgba(255, 255, 255, 0.02);
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border-radius: 24px;
-            padding: 25px;
-            border: 1px solid var(--card-border);
+            padding: 30px;
+            border: 1px solid var(--border);
             position: relative;
+            transition: all 0.4s ease;
+            animation: fadeInUp 1s ease-out both;
+        }
+
+        .track:nth-child(1) { animation-delay: 0.1s; }
+        .track:nth-child(2) { animation-delay: 0.2s; }
+        .track:nth-child(3) { animation-delay: 0.3s; }
+
+        .track::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 24px;
+            padding: 1px;
+            background: linear-gradient(135deg, var(--primary), transparent);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .track:hover::before {
+            opacity: 1;
+        }
+
+        .track:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
         }
 
         .track-header {
             margin-bottom: 30px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid var(--card-border);
-            text-align: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+            position: relative;
         }
 
         .track-title {
-            font-size: 1.5rem;
-            font-weight: 700;
+            font-size: 1.8rem;
+            font-weight: 800;
             margin: 0;
-            color: #fff;
-            display: inline-block;
+            background: linear-gradient(135deg, var(--text-main), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        /* --- COURSE LIST & ARROWS --- */
+        /* Course list */
         .course-list {
             display: flex;
             flex-direction: column;
-            gap: 0; /* Gap handled by margin to fit arrows */
-            position: relative;
+            gap: 0;
         }
 
         .course-wrapper {
             position: relative;
-            margin-bottom: 40px; /* Space for arrow */
+            margin-bottom: 35px;
+            animation: slideIn 0.6s ease-out both;
         }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .course-wrapper:nth-child(1) { animation-delay: 0.1s; }
+        .course-wrapper:nth-child(2) { animation-delay: 0.15s; }
+        .course-wrapper:nth-child(3) { animation-delay: 0.2s; }
+        .course-wrapper:nth-child(4) { animation-delay: 0.25s; }
+        .course-wrapper:nth-child(5) { animation-delay: 0.3s; }
+        .course-wrapper:nth-child(6) { animation-delay: 0.35s; }
+        .course-wrapper:nth-child(7) { animation-delay: 0.4s; }
+        .course-wrapper:nth-child(8) { animation-delay: 0.45s; }
+        .course-wrapper:nth-child(9) { animation-delay: 0.5s; }
 
         .course-wrapper:last-child {
             margin-bottom: 0;
         }
 
-        /* THE ARROW IMPLEMENTATION */
+        /* Animated arrows */
         .course-wrapper:not(:last-child)::after {
             content: '';
             position: absolute;
-            bottom: -32px;
+            bottom: -28px;
             left: 50%;
             transform: translateX(-50%);
             width: 2px;
-            height: 24px;
-            background: linear-gradient(to bottom, var(--card-border), var(--accent));
-            opacity: 0.5;
+            height: 20px;
+            background: linear-gradient(to bottom, var(--border), var(--primary));
         }
 
         .course-wrapper:not(:last-child)::before {
             content: '▼';
             position: absolute;
-            bottom: -43px;
+            bottom: -38px;
             left: 50%;
             transform: translateX(-50%);
-            font-size: 14px;
-            color: var(--accent);
-            opacity: 0.8;
-            animation: bounce 2s infinite;
+            font-size: 12px;
+            color: var(--primary);
+            animation: arrowBounce 2s ease-in-out infinite;
+            filter: drop-shadow(0 0 8px var(--primary-glow));
         }
 
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {transform: translateX(-50%) translateY(0);}
-            40% {transform: translateX(-50%) translateY(-3px);}
-            60% {transform: translateX(-50%) translateY(-1px);}
+        @keyframes arrowBounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-5px); }
+            60% { transform: translateX(-50%) translateY(-2px); }
         }
 
-        /* --- CARD DESIGN --- */
+        /* Course card with 3D effect */
         .course-card {
             display: flex;
             align-items: center;
-            background: var(--card-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-radius: 16px;
-            padding: 16px;
+            background: rgba(30, 35, 50, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 18px;
+            padding: 18px;
             text-decoration: none;
             color: inherit;
-            border: 1px solid var(--card-border);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid var(--border);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
             position: relative;
             overflow: hidden;
-            z-index: 1;
+            transform-style: preserve-3d;
         }
 
         .course-card::before {
             content: '';
             position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.03), transparent);
-            transform: translateX(-100%);
-            transition: 0.5s;
+            inset: 0;
+            background: linear-gradient(
+                135deg,
+                rgba(255, 255, 255, 0.1) 0%,
+                transparent 50%,
+                rgba(16, 185, 129, 0.1) 100%
+            );
+            opacity: 0;
+            transition: opacity 0.4s;
         }
 
         .course-card:hover {
-            transform: translateY(-4px);
-            border-color: var(--accent);
-            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5), 0 0 15px rgba(34, 197, 94, 0.1);
+            transform: translateY(-8px) scale(1.02);
+            border-color: var(--primary);
+            box-shadow: 
+                0 20px 50px rgba(0, 0, 0, 0.5),
+                0 0 30px var(--primary-glow),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
         }
 
         .course-card:hover::before {
-            transform: translateX(100%);
+            opacity: 1;
+        }
+
+        /* Shine effect */
+        .course-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent,
+                rgba(255, 255, 255, 0.1),
+                transparent
+            );
+            transform: translateX(-100%) translateY(-100%) rotate(45deg);
+            transition: transform 0.6s;
+        }
+
+        .course-card:hover::after {
+            transform: translateX(100%) translateY(100%) rotate(45deg);
         }
 
         .course-img {
-            width: 64px;
-            height: 64px;
-            border-radius: 12px;
+            width: 70px;
+            height: 70px;
+            border-radius: 14px;
             object-fit: cover;
-            margin-right: 16px;
-            border: 1px solid rgba(255,255,255,0.1);
+            margin-right: 18px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .course-card:hover .course-img {
+            transform: scale(1.1) rotate(5deg);
+            border-color: var(--primary);
+            box-shadow: 0 8px 24px var(--primary-glow);
         }
 
         .course-details {
@@ -263,285 +429,423 @@
         }
 
         .course-title {
-            font-size: 1.05rem;
-            font-weight: 600;
-            margin: 0 0 6px 0;
-            line-height: 1.3;
-            color: #f1f5f9;
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin: 0 0 8px 0;
+            line-height: 1.4;
+            color: #f8fafc;
+            transition: color 0.3s;
+        }
+
+        .course-card:hover .course-title {
+            color: var(--primary);
         }
 
         .course-meta {
-            font-size: 0.8rem;
-            color: var(--text-secondary);
+            font-size: 0.85rem;
+            color: var(--text-muted);
             display: flex;
-            gap: 12px;
+            gap: 10px;
             align-items: center;
+            flex-wrap: wrap;
         }
 
         .badge {
-            display: flex;
+            display: inline-flex;
             align-items: center;
             gap: 5px;
-            background: rgba(255,255,255,0.05);
-            padding: 2px 8px;
-            border-radius: 6px;
+            background: rgba(16, 185, 129, 0.1);
+            backdrop-filter: blur(5px);
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-weight: 600;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            transition: all 0.3s;
         }
 
-        /* --- PLACEHOLDER --- */
+        .course-card:hover .badge {
+            background: rgba(16, 185, 129, 0.2);
+            border-color: var(--primary);
+            transform: scale(1.05);
+        }
+
+        /* Placeholder */
         .placeholder-box {
             margin-top: 20px;
-            padding: 20px;
+            padding: 30px;
             text-align: center;
-            border: 2px dashed var(--card-border);
-            border-radius: 16px;
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            background: rgba(0,0,0,0.2);
+            border: 2px dashed var(--border);
+            border-radius: 18px;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            background: rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
         }
 
-        /* --- RESPONSIVE --- */
+        .placeholder-box::before {
+            content: '✨';
+            position: absolute;
+            font-size: 3rem;
+            opacity: 0.1;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        /* Responsive */
         @media (max-width: 768px) {
             .tracks-grid {
                 grid-template-columns: 1fr;
             }
-            .course-card {
-                padding: 12px;
+            
+            header {
+                padding: 60px 20px 40px;
             }
+
+            .avatar {
+                width: 120px;
+                height: 120px;
+            }
+
             .profile-info h1 {
-                font-size: 1.8rem;
+                font-size: 2rem;
             }
+
             .description {
                 font-size: 1rem;
             }
+
+            .track {
+                padding: 20px;
+            }
+
+            .course-card {
+                padding: 14px;
+            }
+
+            .course-img {
+                width: 60px;
+                height: 60px;
+            }
+        }
+
+        /* Scroll progress bar */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            z-index: 9999;
+            transition: width 0.1s ease;
+            box-shadow: 0 0 10px var(--primary-glow);
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-dark);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, var(--primary), var(--secondary));
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary);
         }
     </style>
 </head>
 <body>
+    <!-- Scroll progress bar -->
+    <div class="scroll-progress" id="scrollProgress"></div>
 
-<header>
-    <div class="profile-container">
-        <div class="avatar-container">
-            <img src="https://sun9-80.userapi.com/s/v1/ig2/to9UlSEbj7AIRcTNXftq6oOFkMPSoDkPZKSDETdMGKe5NtA0XYExiwu3E8NGQG2NP4-886BBT3swXt0q08o8tcv5.jpg?quality=95&as=32x32,48x48,72x72,108x108,150x150&from=bu&u=1tcCKnnOIQq00smUZEZVMpagvhnBcNEL8nUdEFCN_yU&cs=150x0" alt="Александр Заплавный" class="avatar">
+    <!-- Floating particles -->
+    <div class="particles" id="particles"></div>
+
+    <header>
+        <div class="profile-container">
+            <div class="avatar-container">
+                <div class="avatar-glow"></div>
+                <img src="https://sun9-80.userapi.com/s/v1/ig2/to9UlSEbj7AIRcTNXftq6oOFkMPSoDkPZKSDETdMGKe5NtA0XYExiwu3E8NGQG2NP4-886BBT3swXt0q08o8tcv5.jpg?quality=95&as=32x32,48x48,72x72,108x108,150x150&from=bu&u=1tcCKnnOIQq00smUZEZVMpagvhnBcNEL8nUdEFCN_yU&cs=150x0" alt="Александр Заплавный" class="avatar">
+            </div>
+            <div class="profile-info">
+                <h1>Александр Заплавный</h1>
+                <p class="description">Автор курсов на Stepik. Дорожные карты обучения от новичка до профессионала.</p>
+                
+                <div class="profile-actions">
+                    <a href="https://stepik.org/users/554816359/profile" class="btn-profile" target="_blank">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                        Профиль Stepik
+                    </a>
+                </div>
+            </div>
         </div>
-        <div class="profile-info">
-            <h1>Александр Заплавный</h1>
-            <p class="description">Автор курсов на Stepik. Дорожные карты обучения от новичка до профессионала.</p>
+    </header>
+
+    <div class="container">
+        <div class="tracks-grid">
+            <!-- TRACK 1: PYTHON CORE -->
+            <div class="track">
+                <div class="track-header">
+                    <h2 class="track-title">🐍 Python Core</h2>
+                </div>
+                <div class="course-list">
+                    <div class="course-wrapper">
+                        <a href="https://stepik.org/course/257482" class="course-card">
+                            <img src="https://cdn.stepik.net/media/cache/images/courses/257482/cover_jNvQRlJ/2dad688db4b195b8928972218ce556df.png" class="course-img" alt="cover">
+                            <div class="course-details">
+                                <h3 class="course-title">Марафон: 300 задач</h3>
+                                <div class="course-meta"><span class="badge">👥 331</span> <span class="badge">🔥 Start here</span></div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="course-wrapper">
+                        <a href="https://stepik.org/course/258630" class="course-card">
+                            <img src="https://cdn.stepik.net/media/cache/images/courses/258630/cover_7c2ldJn/71f2dc64336301e7359d96b5a1c90e4c.png" class="course-img" alt="cover">
+                            <div class="course-details">
+                                <h3 class="course-title">Форматирование строк</h3>
+                                <div class="course-meta"><span class="badge">👥 377</span></div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="course-wrapper">
+                        <a href="https://stepik.org/course/254654" class="course-card">
+                            <img src="https://cdn.stepik.net/media/cache/images/courses/254654/cover_VTL5fZk/c0978da354bc9cba87339485b869799f.png" class="course-img" alt="cover">
+                            <div class="course-details">
+                                <h3 class="course-title">Работа с датой и временем</h3>
+                                <div class="course-meta"><span class="badge">👥 303</span></div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="course-wrapper">
+                        <a href="https://stepik.org/course/253550" class="course-card">
+                            <img src="https://cdn.stepik.net/media/cache/images/courses/253550/cover_Ag8uVlY/afd4e93117824041403a25fcd88a9f6a.png" class="course-img" alt="cover">
+                            <div class="course-details">
+                                <h3 class="course-title">Модули os и sys</h3>
+                                <div class="course-meta"><span class="badge">👥 404</span></div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="course-wrapper">
+                        <a href="https://stepik.org/course/260212" class="course-card">
+                            <img src="https://cdn.stepik.net/media/cache/images/courses/260212/cover_yDBCCFU/92828215c87920a662d5f44a86b54443.png" class="course-img" alt="cover">
+                            <div class="course-details">
+                                <h3 class="course-title">Декораторы в Python</h3>
+                                <div class="course-meta"><span class="badge">👥 321</span></div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="course-wrapper">
+                        <a href="https://stepik.org/course/256643" class="course-card">
+                            <img src="https://cdn.stepik.net/media/cache/images/courses/256643/cover_KoiqFKP/dc29bc96b438b27f319eeb8b22b8c034.png" class="course-img" alt="cover">
+                            <div class="course-details">
+                                <h3 class="course-title">ООП Python: Часть 1</h3>
+                                <div class="course-meta"><span class="badge">👥 2K</span></div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="course-wrapper">
+                        <a href="https://stepik.org/course/259051" class="course-card">
+                            <img src="https://cdn.stepik.net/media/cache/images/courses/259051/cover_Z9El9e2/47e3bbba0abbe47024ef16bad4d199d6.png" class="course-img" alt="cover">
+                            <div class="course-details">
+                                <h3 class="course-title">ООП Python: Часть 2</h3>
+                                <div class="course-meta"><span class="badge">👥 872</span></div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="course-wrapper">
+                        <a href="https://stepik.org/course/262749" class="course-card">
+                            <img src="https://cdn.stepik.net/media/cache/images/courses/262749/cover_kG42k3k/c7de78b8ae681e8bbd4abdef1f39ae1e.png" class="course-img" alt="cover">
+                            <div class="course-details">
+                                <h3 class="course-title">Регулярные выражения (RegEx)</h3>
+                                <div class="course-meta"><span class="badge">👥 223</span></div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="course-wrapper">
+                        <a href="https://stepik.org/course/258192" class="course-card">
+                            <img src="https://cdn.stepik.net/media/cache/images/courses/258192/cover_KmrlW3b/c0b014da9eb5f42b727205b56cef3065.png" class="course-img" alt="cover">
+                            <div class="course-details">
+                                <h3 class="course-title">Асинхронный Python</h3>
+                                <div class="course-meta"><span class="badge">👥 464</span></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TRACK 2: BACKEND & DATA -->
+            <div class="track">
+                <div class="track-header">
+                    <h2 class="track-title">🌐 Backend & Data</h2>
+                </div>
+                <div class="course-list">
+                    <div class="course-wrapper">
+                        <a href="https://stepik.org/course/256007" class="course-card">
+                            <img src="https://cdn.stepik.net/media/cache/images/courses/256007/cover_ZkPBdZ3/15fa55980b16e91b5ac13a353999e51a.png" class="course-img" alt="cover">
+                            <div class="course-details">
+                                <h3 class="course-title">SQL Часть 1. Основы</h3>
+                                <div class="course-meta"><span class="badge">👥 612</span></div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="course-wrapper">
+                        <a href="https://stepik.org/course/257029" class="course-card">
+                            <img src="https://cdn.stepik.net/media/cache/images/courses/257029/cover_uV8kle3/48a31238c4d4b7ccb1c2889a2eba928c.png" class="course-img" alt="cover">
+                            <div class="course-details">
+                                <h3 class="course-title">SQL Часть 2. Продвинутые</h3>
+                                <div class="course-meta"><span class="badge">👥 440</span></div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="course-wrapper">
+                        <a href="https://stepik.org/course/263165" class="course-card">
+                            <img src="https://cdn.stepik.net/media/cache/images/courses/263165/cover_ucenXnR/d44203028db407b1839e63daeeb3260f.png" class="course-img" alt="cover">
+                            <div class="course-details">
+                                <h3 class="course-title">FastAPI для начинающих</h3>
+                                <div class="course-meta"><span class="badge">👥 291</span></div>
+                            </div>
+                        </a>
+                    </div>
+                    
+                    <div class="course-wrapper">
+                        <a href="https://stepik.org/course/259625" class="course-card">
+                            <img src="https://cdn.stepik.net/media/cache/images/courses/259625/cover_QOE4fVf/638bdc6f8ed4a459e7f09adc0bd3cf10.png" class="course-img" alt="cover">
+                            <div class="course-details">
+                                <h3 class="course-title">Pytest: Уверенное тестирование</h3>
+                                <div class="course-meta"><span class="badge">👥 447</span></div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="course-wrapper">
+                        <a href="https://stepik.org/course/261721" class="course-card">
+                            <img src="https://cdn.stepik.net/media/cache/images/courses/261721/cover_6We3tVN/97d8d3fa37bef56747a4f60ca041bf31.png" class="course-img" alt="cover">
+                            <div class="course-details">
+                                <h3 class="course-title">Функциональный Python</h3>
+                                <div class="course-meta"><span class="badge">👥 7</span></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TRACK 3: MATH & GAMEDEV -->
+            <div class="track">
+                <div class="track-header">
+                    <h2 class="track-title">🎲 Math & GameDev</h2>
+                </div>
+                <div class="course-list">
+                    <div class="course-wrapper">
+                        <a href="https://stepik.org/course/233227" class="course-card">
+                            <img src="https://cdn.stepik.net/media/cache/images/courses/233227/cover_28ryU0V/54928fc5b465e8db5a5fd629430471a6.png" class="course-img" alt="cover">
+                            <div class="course-details">
+                                <h3 class="course-title">Python Pygame: До "Змейки"</h3>
+                                <div class="course-meta"><span class="badge">👥 532</span></div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="course-wrapper">
+                        <a href="https://stepik.org/course/264540" class="course-card">
+                            <img src="https://cdn.stepik.net/media/cache/images/courses/264540/cover_BskffI8/7e1157bd10c5b0df91ee632b268eca6f.png" class="course-img" alt="cover">
+                            <div class="course-details">
+                                <h3 class="course-title">Комбинаторика на пальцах</h3>
+                                <div class="course-meta"><span class="badge">👥 61</span></div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="course-wrapper">
+                        <a href="https://stepik.org/course/264013" class="course-card">
+                            <img src="https://cdn.stepik.net/media/cache/images/courses/264013/cover_fpBRZQc/ff77cdc021b8c05dcf316b809ba59724.png" class="course-img" alt="cover">
+                            <div class="course-details">
+                                <h3 class="course-title">Теория вероятностей. Часть 1</h3>
+                                <div class="course-meta"><span class="badge">👥 117</span></div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="placeholder-box">
+                        Скоро здесь появятся новые разделы...
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Scroll progress bar
+        window.addEventListener('scroll', () => {
+            const scrollProgress = document.getElementById('scrollProgress');
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const progress = (scrollTop / scrollHeight) * 100;
+            scrollProgress.style.width = progress + '%';
+        });
+
+        // Create floating particles
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 30; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = Math.random() * 100 + '%';
+            particle.style.setProperty('--tx', (Math.random() - 0.5) * 200 + 'px');
+            particle.style.setProperty('--ty', (Math.random() - 0.5) * 200 + 'px');
+            particle.style.animationDelay = Math.random() * 20 + 's';
+            particle.style.animationDuration = (Math.random() * 10 + 15) + 's';
+            particlesContainer.appendChild(particle);
+        }
+
+        // 3D tilt effect on course cards
+        document.querySelectorAll('.course-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateX = (y - centerY) / 10;
+                const rotateY = (centerX - x) / 10;
+                
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px) scale(1.02)`;
+            });
             
-            <div class="profile-actions">
-                <a href="https://stepik.org/users/554816359/profile" class="btn-profile" target="_blank">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                    Профиль Stepik
-                </a>
-            </div>
-        </div>
-    </div>
-</header>
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = '';
+            });
+        });
 
-<div class="container">
-    <div class="tracks-grid">
-
-        <!-- TRACK 1: PYTHON CORE -->
-        <div class="track">
-            <div class="track-header">
-                <h2 class="track-title">🐍 Python Core</h2>
-            </div>
-            <div class="course-list">
-                
-                <!-- MOVED: Marathon Course (Beginner Start) -->
-                <div class="course-wrapper">
-                    <a href="https://stepik.org/course/257482" class="course-card">
-                        <img src="https://cdn.stepik.net/media/cache/images/courses/257482/cover_jNvQRlJ/2dad688db4b195b8928972218ce556df.png" class="course-img" alt="cover">
-                        <div class="course-details">
-                            <h3 class="course-title">Марафон: 300 задач</h3>
-                            <div class="course-meta"><span class="badge">👥 331</span> <span class="badge">🔥 Start here</span></div>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="course-wrapper">
-                    <a href="https://stepik.org/course/258630" class="course-card">
-                        <img src="https://cdn.stepik.net/media/cache/images/courses/258630/cover_7c2ldJn/71f2dc64336301e7359d96b5a1c90e4c.png" class="course-img" alt="cover">
-                        <div class="course-details">
-                            <h3 class="course-title">Форматирование строк</h3>
-                            <div class="course-meta"><span class="badge">👥 377</span></div>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="course-wrapper">
-                    <a href="https://stepik.org/course/254654" class="course-card">
-                        <img src="https://cdn.stepik.net/media/cache/images/courses/254654/cover_VTL5fZk/c0978da354bc9cba87339485b869799f.png" class="course-img" alt="cover">
-                        <div class="course-details">
-                            <h3 class="course-title">Работа с датой и временем</h3>
-                            <div class="course-meta"><span class="badge">👥 303</span></div>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="course-wrapper">
-                    <a href="https://stepik.org/course/253550" class="course-card">
-                        <img src="https://cdn.stepik.net/media/cache/images/courses/253550/cover_Ag8uVlY/afd4e93117824041403a25fcd88a9f6a.png" class="course-img" alt="cover">
-                        <div class="course-details">
-                            <h3 class="course-title">Модули os и sys</h3>
-                            <div class="course-meta"><span class="badge">👥 404</span></div>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="course-wrapper">
-                    <a href="https://stepik.org/course/260212" class="course-card">
-                        <img src="https://cdn.stepik.net/media/cache/images/courses/260212/cover_yDBCCFU/92828215c87920a662d5f44a86b54443.png" class="course-img" alt="cover">
-                        <div class="course-details">
-                            <h3 class="course-title">Декораторы в Python</h3>
-                            <div class="course-meta"><span class="badge">👥 321</span></div>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="course-wrapper">
-                    <a href="https://stepik.org/course/256643" class="course-card">
-                        <img src="https://cdn.stepik.net/media/cache/images/courses/256643/cover_KoiqFKP/dc29bc96b438b27f319eeb8b22b8c034.png" class="course-img" alt="cover">
-                        <div class="course-details">
-                            <h3 class="course-title">ООП Python: Часть 1</h3>
-                            <div class="course-meta"><span class="badge">👥 2K</span></div>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="course-wrapper">
-                    <a href="https://stepik.org/course/259051" class="course-card">
-                        <img src="https://cdn.stepik.net/media/cache/images/courses/259051/cover_Z9El9e2/47e3bbba0abbe47024ef16bad4d199d6.png" class="course-img" alt="cover">
-                        <div class="course-details">
-                            <h3 class="course-title">ООП Python: Часть 2</h3>
-                            <div class="course-meta"><span class="badge">👥 872</span></div>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="course-wrapper">
-                    <a href="https://stepik.org/course/262749" class="course-card">
-                        <img src="https://cdn.stepik.net/media/cache/images/courses/262749/cover_kG42k3k/c7de78b8ae681e8bbd4abdef1f39ae1e.png" class="course-img" alt="cover">
-                        <div class="course-details">
-                            <h3 class="course-title">Регулярные выражения (RegEx)</h3>
-                            <div class="course-meta"><span class="badge">👥 223</span></div>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="course-wrapper">
-                    <a href="https://stepik.org/course/258192" class="course-card">
-                        <img src="https://cdn.stepik.net/media/cache/images/courses/258192/cover_KmrlW3b/c0b014da9eb5f42b727205b56cef3065.png" class="course-img" alt="cover">
-                        <div class="course-details">
-                            <h3 class="course-title">Асинхронный Python</h3>
-                            <div class="course-meta"><span class="badge">👥 464</span></div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <!-- TRACK 2: BACKEND & DATA -->
-        <div class="track">
-            <div class="track-header">
-                <h2 class="track-title">🌐 Backend & Data</h2>
-            </div>
-            <div class="course-list">
-                <div class="course-wrapper">
-                    <a href="https://stepik.org/course/256007" class="course-card">
-                        <img src="https://cdn.stepik.net/media/cache/images/courses/256007/cover_ZkPBdZ3/15fa55980b16e91b5ac13a353999e51a.png" class="course-img" alt="cover">
-                        <div class="course-details">
-                            <h3 class="course-title">SQL Часть 1. Основы</h3>
-                            <div class="course-meta"><span class="badge">👥 612</span></div>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="course-wrapper">
-                    <a href="https://stepik.org/course/257029" class="course-card">
-                        <img src="https://cdn.stepik.net/media/cache/images/courses/257029/cover_uV8kle3/48a31238c4d4b7ccb1c2889a2eba928c.png" class="course-img" alt="cover">
-                        <div class="course-details">
-                            <h3 class="course-title">SQL Часть 2. Продвинутые</h3>
-                            <div class="course-meta"><span class="badge">👥 440</span></div>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="course-wrapper">
-                    <a href="https://stepik.org/course/263165" class="course-card">
-                        <img src="https://cdn.stepik.net/media/cache/images/courses/263165/cover_ucenXnR/d44203028db407b1839e63daeeb3260f.png" class="course-img" alt="cover">
-                        <div class="course-details">
-                            <h3 class="course-title">FastAPI для начинающих</h3>
-                            <div class="course-meta"><span class="badge">👥 291</span></div>
-                        </div>
-                    </a>
-                </div>
-                
-                <div class="course-wrapper">
-                    <a href="https://stepik.org/course/259625" class="course-card">
-                        <img src="https://cdn.stepik.net/media/cache/images/courses/259625/cover_QOE4fVf/638bdc6f8ed4a459e7f09adc0bd3cf10.png" class="course-img" alt="cover">
-                        <div class="course-details">
-                            <h3 class="course-title">Pytest: Уверенное тестирование</h3>
-                            <div class="course-meta"><span class="badge">👥 447</span></div>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="course-wrapper">
-                     <a href="https://stepik.org/course/261721" class="course-card">
-                        <img src="https://cdn.stepik.net/media/cache/images/courses/261721/cover_6We3tVN/97d8d3fa37bef56747a4f60ca041bf31.png" class="course-img" alt="cover">
-                        <div class="course-details">
-                            <h3 class="course-title">Функциональный Python</h3>
-                            <div class="course-meta"><span class="badge">👥 7</span></div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <!-- TRACK 3: CS, MATH & GAMEDEV -->
-        <div class="track">
-            <div class="track-header">
-                <h2 class="track-title">🎲 Math & GameDev</h2>
-            </div>
-            <div class="course-list">
-                 <div class="course-wrapper">
-                     <a href="https://stepik.org/course/233227" class="course-card">
-                        <img src="https://cdn.stepik.net/media/cache/images/courses/233227/cover_28ryU0V/54928fc5b465e8db5a5fd629430471a6.png" class="course-img" alt="cover">
-                        <div class="course-details">
-                            <h3 class="course-title">Python Pygame: До "Змейки"</h3>
-                            <div class="course-meta"><span class="badge">👥 532</span></div>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="course-wrapper">
-                    <a href="https://stepik.org/course/264540" class="course-card">
-                        <img src="https://cdn.stepik.net/media/cache/images/courses/264540/cover_BskffI8/7e1157bd10c5b0df91ee632b268eca6f.png" class="course-img" alt="cover">
-                        <div class="course-details">
-                            <h3 class="course-title">Комбинаторика на пальцах</h3>
-                            <div class="course-meta"><span class="badge">👥 61</span></div>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="course-wrapper">
-                    <a href="https://stepik.org/course/264013" class="course-card">
-                        <img src="https://cdn.stepik.net/media/cache/images/courses/264013/cover_fpBRZQc/ff77cdc021b8c05dcf316b809ba59724.png" class="course-img" alt="cover">
-                        <div class="course-details">
-                            <h3 class="course-title">Теория вероятностей. Часть 1</h3>
-                            <div class="course-meta"><span class="badge">👥 117</span></div>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="placeholder-box">
-                    Скоро здесь появятся новые разделы...
-                </div>
-            </div>
-        </div>
-
-    </div>
-</div>
-
+        // Smooth scroll for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
 </body>
 </html>
