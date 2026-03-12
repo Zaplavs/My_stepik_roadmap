@@ -6,20 +6,23 @@
     <title>Roadmaps | Александр Заплавный</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #10b981;
-            --primary-glow: rgba(16, 185, 129, 0.4);
-            --secondary: #6366f1;
-            --bg-dark: #0a0e1a;
-            --bg-card: rgba(20, 25, 40, 0.6);
+            --primary: #00ff87;
+            --primary-glow: rgba(0, 255, 135, 0.4);
+            --secondary: #60efff;
+            --accent: #8e2de2;
+            --bg-dark: #050505;
+            --bg-card: rgba(20, 20, 25, 0.4);
             --text-main: #ffffff;
-            --text-muted: #94a3b8;
-            --border: rgba(255, 255, 255, 0.1);
-            --glow-purple: rgba(139, 92, 246, 0.3);
-            --glow-cyan: rgba(6, 182, 212, 0.3);
+            --text-muted: #a0aec0;
+            --border: rgba(255, 255, 255, 0.08);
+            --border-hover: rgba(255, 255, 255, 0.2);
             --price-color: #fbbf24;
+            --star-color: #f6e05e;
+            --time-color: #68d391;
+            --users-color: #63b3ed;
         }
 
         * {
@@ -30,34 +33,47 @@
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--bg-dark);
+            background-color: var(--bg-dark);
             color: var(--text-main);
             overflow-x: hidden;
             position: relative;
         }
 
-        /* Animated gradient background */
+        /* Complex animated background */
         body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: 
+                radial-gradient(circle at 15% 50%, rgba(142, 45, 226, 0.15), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(96, 239, 255, 0.1), transparent 25%),
+                radial-gradient(circle at 50% 80%, rgba(0, 255, 135, 0.1), transparent 30%);
+            z-index: -3;
+            animation: bgShift 20s ease-in-out infinite alternate;
+        }
+
+        /* Subtle noise texture for premium feel */
+        body::after {
             content: '';
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: 
-                radial-gradient(circle at 20% 20%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(6, 182, 212, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.1) 0%, transparent 70%);
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
             z-index: -2;
-            animation: gradientShift 20s ease infinite;
+            pointer-events: none;
         }
 
-        @keyframes gradientShift {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.8; transform: scale(1.1); }
+        @keyframes bgShift {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.1); }
         }
 
-        /* Floating particles */
+        /* Floating glowing dust */
         .particles {
             position: fixed;
             top: 0;
@@ -70,24 +86,24 @@
 
         .particle {
             position: absolute;
-            width: 4px;
-            height: 4px;
-            background: var(--primary);
+            width: 3px;
+            height: 3px;
+            background: #fff;
             border-radius: 50%;
-            opacity: 0.3;
-            animation: float 20s infinite;
+            box-shadow: 0 0 10px var(--primary), 0 0 20px var(--secondary);
+            animation: floatUp linear infinite;
         }
 
-        @keyframes float {
-            0%, 100% { transform: translate(0, 0) scale(1); opacity: 0; }
-            10% { opacity: 0.3; }
-            90% { opacity: 0.3; }
-            100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; }
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) scale(0); opacity: 0; }
+            20% { opacity: 0.8; transform: translateY(80vh) scale(1); }
+            80% { opacity: 0.8; transform: translateY(20vh) scale(1); }
+            100% { transform: translateY(-10vh) scale(0); opacity: 0; }
         }
 
         /* Header */
         header {
-            padding: 80px 20px 60px;
+            padding: 100px 20px 60px;
             text-align: center;
             position: relative;
             z-index: 10;
@@ -95,256 +111,226 @@
 
         .avatar-container {
             position: relative;
-            display: inline-block;
-            margin-bottom: 30px;
-            animation: fadeInScale 1s ease-out;
-        }
-
-        @keyframes fadeInScale {
-            from { opacity: 0; transform: scale(0.8); }
-            to { opacity: 1; transform: scale(1); }
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 35px;
+            animation: fadeInDown 1s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
         .avatar-glow {
             position: absolute;
-            inset: -20px;
-            background: conic-gradient(from 0deg, var(--primary), var(--secondary), var(--primary));
+            inset: -15px;
             border-radius: 50%;
-            animation: rotate 8s linear infinite;
-            filter: blur(20px);
-            opacity: 0.5;
-            z-index: -1;
+            background: conic-gradient(from 0deg, var(--primary), var(--secondary), var(--accent), var(--primary));
+            filter: blur(25px);
+            opacity: 0.6;
+            animation: rotateGlow 6s linear infinite;
         }
 
-        @keyframes rotate {
-            100% { transform: rotate(360deg); }
+        .avatar-ring {
+            position: absolute;
+            inset: -5px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            z-index: 1;
         }
 
         .avatar {
-            width: 160px;
-            height: 160px;
+            width: 180px;
+            height: 180px;
             border-radius: 50%;
-            border: 4px solid rgba(255, 255, 255, 0.1);
             object-fit: cover;
             position: relative;
             z-index: 2;
-            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border: 4px solid var(--bg-dark);
+            transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
             cursor: pointer;
         }
 
-        .avatar:hover {
-            transform: scale(1.1) rotate(5deg);
+        .avatar-container:hover .avatar {
+            transform: scale(1.05) rotate(3deg);
+        }
+
+        @keyframes rotateGlow {
+            100% { transform: rotate(360deg); }
         }
 
         .profile-info h1 {
-            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-size: clamp(2.5rem, 6vw, 4rem);
             font-weight: 900;
+            letter-spacing: -0.02em;
             margin: 0 0 15px;
-            background: linear-gradient(135deg, #fff 0%, var(--primary) 100%);
+            background: linear-gradient(to right, #ffffff, var(--text-muted));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: fadeInUp 1s ease-out 0.2s both;
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+            animation: fadeInUp 1s cubic-bezier(0.23, 1, 0.32, 1) 0.2s both;
         }
 
         .description {
             color: var(--text-muted);
-            max-width: 600px;
-            margin: 0 auto 30px;
-            font-size: 1.15rem;
+            max-width: 650px;
+            margin: 0 auto 35px;
+            font-size: 1.25rem;
             line-height: 1.6;
-            animation: fadeInUp 1s ease-out 0.4s both;
-        }
-
-        .profile-actions {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            flex-wrap: wrap;
-            animation: fadeInUp 1s ease-out 0.6s both;
+            font-weight: 400;
+            animation: fadeInUp 1s cubic-bezier(0.23, 1, 0.32, 1) 0.3s both;
         }
 
         .btn-profile {
             display: inline-flex;
             align-items: center;
-            gap: 10px;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            gap: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--border);
-            padding: 14px 30px;
-            border-radius: 50px;
+            padding: 16px 36px;
+            border-radius: 100px;
             color: white;
             text-decoration: none;
             font-weight: 600;
-            font-size: 1rem;
-            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            font-size: 1.05rem;
+            transition: all 0.4s ease;
             position: relative;
             overflow: hidden;
+            animation: fadeInUp 1s cubic-bezier(0.23, 1, 0.32, 1) 0.4s both;
         }
 
         .btn-profile::before {
             content: '';
             position: absolute;
             inset: 0;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            background: linear-gradient(135deg, rgba(0, 255, 135, 0.2), rgba(96, 239, 255, 0.2));
             opacity: 0;
-            transition: opacity 0.4s;
+            transition: opacity 0.4s ease;
             z-index: -1;
         }
 
         .btn-profile:hover {
             transform: translateY(-3px);
-            box-shadow: 0 10px 40px var(--primary-glow);
             border-color: var(--primary);
+            box-shadow: 0 10px 30px rgba(0, 255, 135, 0.2);
         }
 
         .btn-profile:hover::before {
             opacity: 1;
         }
 
-        /* Container */
+        /* Container & Grid */
         .container {
-            max-width: 1600px;
+            max-width: 1700px;
             margin: 0 auto;
-            padding: 0 20px 80px;
+            padding: 0 20px 100px;
         }
 
         .tracks-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-            gap: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+            gap: 40px;
             align-items: start;
         }
 
-        /* Track column */
+        /* Track Column */
         .track {
             background: var(--bg-card);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-radius: 24px;
-            padding: 30px;
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-radius: 30px;
+            padding: 35px 25px;
             border: 1px solid var(--border);
-            position: relative;
-            transition: all 0.4s ease;
-            animation: fadeInUp 1s ease-out both;
+            box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.05), 0 20px 40px rgba(0,0,0,0.4);
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            animation: fadeInUp 1s cubic-bezier(0.23, 1, 0.32, 1) both;
         }
 
-        .track:nth-child(1) { animation-delay: 0.1s; }
-        .track:nth-child(2) { animation-delay: 0.2s; }
-        .track:nth-child(3) { animation-delay: 0.3s; }
-        .track:nth-child(4) { animation-delay: 0.4s; }
-
-        .track::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: 24px;
-            padding: 1px;
-            background: linear-gradient(135deg, var(--primary), transparent);
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            opacity: 0;
-            transition: opacity 0.4s;
-        }
-
-        .track:hover::before {
-            opacity: 1;
-        }
+        .track:nth-child(1) { animation-delay: 0.2s; }
+        .track:nth-child(2) { animation-delay: 0.3s; }
+        .track:nth-child(3) { animation-delay: 0.4s; }
+        .track:nth-child(4) { animation-delay: 0.5s; }
 
         .track:hover {
+            border-color: var(--border-hover);
             transform: translateY(-5px);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
         }
 
         .track-header {
-            margin-bottom: 30px;
-            padding-bottom: 20px;
+            margin-bottom: 35px;
+            padding-bottom: 25px;
             border-bottom: 1px solid var(--border);
-            position: relative;
+            text-align: center;
         }
 
         .track-title {
-            font-size: 1.6rem;
+            font-size: 1.7rem;
             font-weight: 800;
             margin: 0;
-            background: linear-gradient(135deg, var(--text-main), var(--primary));
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #fff, #a0aec0);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
         }
 
-        /* Course list */
+        /* Course Connectors (Neon Circuits) */
         .course-list {
             display: flex;
             flex-direction: column;
-            gap: 0;
         }
 
         .course-wrapper {
             position: relative;
-            margin-bottom: 35px;
-            animation: slideIn 0.6s ease-out both;
-        }
-
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateX(-20px); }
-            to { opacity: 1; transform: translateX(0); }
+            margin-bottom: 45px;
+            z-index: 1;
         }
 
         .course-wrapper:last-child {
             margin-bottom: 0;
         }
 
-        /* Animated arrows */
+        /* Animated glowing line */
         .course-wrapper:not(:last-child)::after {
             content: '';
             position: absolute;
-            bottom: -28px;
+            bottom: -45px;
             left: 50%;
             transform: translateX(-50%);
             width: 2px;
-            height: 20px;
-            background: linear-gradient(to bottom, var(--border), var(--primary));
+            height: 45px;
+            background: var(--border);
+            z-index: -1;
         }
 
         .course-wrapper:not(:last-child)::before {
-            content: '▼';
+            content: '';
             position: absolute;
-            bottom: -38px;
+            top: 100%;
             left: 50%;
             transform: translateX(-50%);
-            font-size: 12px;
-            color: var(--primary);
-            animation: arrowBounce 2s ease-in-out infinite;
-            filter: drop-shadow(0 0 8px var(--primary-glow));
+            width: 2px;
+            height: 0%;
+            background: linear-gradient(to bottom, var(--primary), var(--secondary));
+            box-shadow: 0 0 10px var(--primary);
+            z-index: 0;
+            animation: circuitFlow 3s infinite ease-in-out;
         }
 
-        @keyframes arrowBounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
-            40% { transform: translateX(-50%) translateY(-5px); }
-            60% { transform: translateX(-50%) translateY(-2px); }
+        @keyframes circuitFlow {
+            0% { top: 100%; height: 0%; opacity: 1; }
+            50% { height: 45px; top: 100%; opacity: 1;}
+            100% { top: calc(100% + 45px); height: 0%; opacity: 0;}
         }
 
-        /* Course card with 3D effect */
+        /* Advanced Card UI */
         .course-card {
             display: flex;
             align-items: center;
-            background: rgba(30, 35, 50, 0.8);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 20px;
             padding: 16px;
             text-decoration: none;
             color: inherit;
             border: 1px solid var(--border);
-            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
             position: relative;
             overflow: hidden;
             transform-style: preserve-3d;
@@ -354,91 +340,68 @@
             content: '';
             position: absolute;
             inset: 0;
-            background: linear-gradient(
-                135deg,
-                rgba(255, 255, 255, 0.05) 0%,
-                transparent 50%,
-                rgba(16, 185, 129, 0.1) 100%
-            );
+            background: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y), rgba(255, 255, 255, 0.06), transparent 40%);
             opacity: 0;
             transition: opacity 0.4s;
+            z-index: 1;
+            pointer-events: none;
         }
 
         .course-card:hover {
-            transform: translateY(-5px) scale(1.02);
-            border-color: var(--primary);
-            box-shadow: 
-                0 15px 35px rgba(0, 0, 0, 0.5),
-                0 0 20px var(--primary-glow),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.04);
+            border-color: rgba(255, 255, 255, 0.15);
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.05) inset;
         }
 
         .course-card:hover::before {
             opacity: 1;
         }
 
-        /* Shine effect */
-        .course-card::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                45deg,
-                transparent,
-                rgba(255, 255, 255, 0.08),
-                transparent
-            );
-            transform: translateX(-100%) translateY(-100%) rotate(45deg);
-            transition: transform 0.6s;
-        }
-
-        .course-card:hover::after {
-            transform: translateX(100%) translateY(100%) rotate(45deg);
-        }
-
         .course-img {
-            width: 65px;
-            height: 65px;
-            border-radius: 12px;
+            width: 75px;
+            height: 75px;
+            border-radius: 14px;
             object-fit: cover;
-            margin-right: 15px;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.4s;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            margin-right: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
             flex-shrink: 0;
+            z-index: 2;
         }
 
         .course-card:hover .course-img {
-            transform: scale(1.1) rotate(5deg);
-            border-color: var(--primary);
-            box-shadow: 0 8px 24px var(--primary-glow);
+            transform: scale(1.08) rotate(-3deg);
+            border-color: var(--secondary);
+            box-shadow: 0 12px 24px rgba(96, 239, 255, 0.3);
         }
 
         .course-details {
             flex: 1;
-            min-width: 0; /* for text truncation if needed */
+            min-width: 0;
+            z-index: 2;
         }
 
         .course-title {
-            font-size: 1.05rem;
+            font-size: 1.1rem;
             font-weight: 700;
-            margin: 0 0 8px 0;
+            margin: 0 0 10px 0;
             line-height: 1.3;
             color: #f8fafc;
             transition: color 0.3s;
         }
 
         .course-card:hover .course-title {
-            color: var(--primary);
+            background: linear-gradient(to right, #fff, var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
+        /* Modern Badges */
         .course-meta {
-            font-size: 0.8rem;
             display: flex;
-            gap: 6px;
+            gap: 8px;
             align-items: center;
             flex-wrap: wrap;
         }
@@ -447,102 +410,64 @@
             display: inline-flex;
             align-items: center;
             gap: 4px;
-            background: rgba(255, 255, 255, 0.05);
-            padding: 4px 8px;
-            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.04);
+            padding: 4px 10px;
+            border-radius: 8px;
             font-weight: 600;
+            font-size: 0.75rem;
             color: var(--text-muted);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: all 0.3s;
+            border: 1px solid transparent;
+            transition: all 0.3s ease;
         }
 
-        .badge.highlight {
-            background: rgba(16, 185, 129, 0.1);
-            color: var(--primary);
-            border-color: rgba(16, 185, 129, 0.2);
-        }
-        
-        .badge.price {
-            background: rgba(251, 191, 36, 0.1);
-            color: var(--price-color);
-            border-color: rgba(251, 191, 36, 0.2);
-        }
+        .badge.start { background: rgba(255, 65, 108, 0.1); color: #ff4b2b; }
+        .badge.star { background: rgba(246, 224, 94, 0.05); color: var(--star-color); }
+        .badge.users { background: rgba(99, 179, 237, 0.05); color: var(--users-color); }
+        .badge.time { background: rgba(104, 211, 145, 0.05); color: var(--time-color); }
+        .badge.price { background: rgba(251, 191, 36, 0.1); color: var(--price-color); border: 1px solid rgba(251, 191, 36, 0.2); }
 
         .course-card:hover .badge {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.08);
         }
-        
-        .course-card:hover .badge.highlight {
-            background: rgba(16, 185, 129, 0.2);
-            border-color: var(--primary);
-        }
+        .course-card:hover .badge.start { background: rgba(255, 65, 108, 0.2); }
+        .course-card:hover .badge.star { background: rgba(246, 224, 94, 0.15); }
+        .course-card:hover .badge.users { background: rgba(99, 179, 237, 0.15); }
+        .course-card:hover .badge.time { background: rgba(104, 211, 145, 0.15); }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .tracks-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            header {
-                padding: 60px 20px 40px;
-            }
-
-            .avatar {
-                width: 120px;
-                height: 120px;
-            }
-
-            .profile-info h1 {
-                font-size: 2rem;
-            }
-
-            .description {
-                font-size: 1rem;
-            }
-
-            .track {
-                padding: 20px;
-            }
-
-            .course-card {
-                padding: 14px;
-            }
-
-            .course-img {
-                width: 55px;
-                height: 55px;
-            }
-        }
-
-        /* Scroll progress bar */
+        /* Scroll progress */
         .scroll-progress {
             position: fixed;
             top: 0;
             left: 0;
             width: 0%;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
             z-index: 9999;
-            transition: width 0.1s ease;
-            box-shadow: 0 0 10px var(--primary-glow);
+            box-shadow: 0 0 15px var(--secondary);
         }
 
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 10px;
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: var(--bg-dark); }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-40px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        ::-webkit-scrollbar-track {
-            background: var(--bg-dark);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: linear-gradient(180deg, var(--primary), var(--secondary));
-            border-radius: 10px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--primary);
+        @media (max-width: 768px) {
+            .tracks-grid { grid-template-columns: 1fr; }
+            header { padding: 60px 20px 30px; }
+            .avatar { width: 140px; height: 140px; }
+            .profile-info h1 { font-size: 2.2rem; }
+            .track { padding: 25px 20px; border-radius: 20px;}
+            .course-img { width: 60px; height: 60px; }
         }
     </style>
 </head>
@@ -554,7 +479,8 @@
         <div class="profile-container">
             <div class="avatar-container">
                 <div class="avatar-glow"></div>
-                <img src="https://sun9-80.userapi.com/s/v1/ig2/to9UlSEbj7AIRcTNXftq6oOFkMPSoDkPZKSDETdMGKe5NtA0XYExiwu3E8NGQG2NP4-886BBT3swXt0q08o8tcv5.jpg?quality=95&as=32x32,48x48,72x72,108x108,150x150&from=bu&u=1tcCKnnOIQq00smUZEZVMpagvhnBcNEL8nUdEFCN_yU&cs=150x0" alt="Александр Заплавный" class="avatar">
+                <div class="avatar-ring"></div>
+                <img src="https://cdn.stepik.net/media/users/554816359/1763633832-6AWBhIh/avatar.png" alt="Александр Заплавный" class="avatar">
             </div>
             <div class="profile-info">
                 <h1>Александр Заплавный</h1>
@@ -584,10 +510,10 @@
                             <div class="course-details">
                                 <h3 class="course-title">Марафон: 300 задач</h3>
                                 <div class="course-meta">
-                                    <span class="badge highlight">🔥 Start</span>
-                                    <span class="badge">⭐ 5.0</span>
-                                    <span class="badge">👥 1.1K</span>
-                                    <span class="badge">🕒 14 ч</span>
+                                    <span class="badge start">🔥 Start</span>
+                                    <span class="badge star">⭐ 5.0</span>
+                                    <span class="badge users">👥 1.1K</span>
+                                    <span class="badge time">🕒 14 ч</span>
                                 </div>
                             </div>
                         </a>
@@ -599,9 +525,9 @@
                             <div class="course-details">
                                 <h3 class="course-title">Форматирование строк</h3>
                                 <div class="course-meta">
-                                    <span class="badge">⭐ 5.0</span>
-                                    <span class="badge">👥 770</span>
-                                    <span class="badge">🕒 4 ч</span>
+                                    <span class="badge star">⭐ 5.0</span>
+                                    <span class="badge users">👥 770</span>
+                                    <span class="badge time">🕒 4 ч</span>
                                 </div>
                             </div>
                         </a>
@@ -613,9 +539,9 @@
                             <div class="course-details">
                                 <h3 class="course-title">Работа с датой и временем</h3>
                                 <div class="course-meta">
-                                    <span class="badge">⭐ 5.0</span>
-                                    <span class="badge">👥 659</span>
-                                    <span class="badge">🕒 6 ч</span>
+                                    <span class="badge star">⭐ 5.0</span>
+                                    <span class="badge users">👥 659</span>
+                                    <span class="badge time">🕒 6 ч</span>
                                 </div>
                             </div>
                         </a>
@@ -627,9 +553,9 @@
                             <div class="course-details">
                                 <h3 class="course-title">Модули os и sys</h3>
                                 <div class="course-meta">
-                                    <span class="badge">⭐ 5.0</span>
-                                    <span class="badge">👥 868</span>
-                                    <span class="badge">🕒 4 ч</span>
+                                    <span class="badge star">⭐ 5.0</span>
+                                    <span class="badge users">👥 868</span>
+                                    <span class="badge time">🕒 4 ч</span>
                                 </div>
                             </div>
                         </a>
@@ -641,9 +567,9 @@
                             <div class="course-details">
                                 <h3 class="course-title">Декораторы в Python</h3>
                                 <div class="course-meta">
-                                    <span class="badge">⭐ 5.0</span>
-                                    <span class="badge">👥 947</span>
-                                    <span class="badge">🕒 7 ч</span>
+                                    <span class="badge star">⭐ 5.0</span>
+                                    <span class="badge users">👥 947</span>
+                                    <span class="badge time">🕒 7 ч</span>
                                 </div>
                             </div>
                         </a>
@@ -655,9 +581,9 @@
                             <div class="course-details">
                                 <h3 class="course-title">ООП Python: Часть 1</h3>
                                 <div class="course-meta">
-                                    <span class="badge">⭐ 5.0</span>
-                                    <span class="badge">👥 6.5K</span>
-                                    <span class="badge">🕒 7 ч</span>
+                                    <span class="badge star">⭐ 5.0</span>
+                                    <span class="badge users">👥 6.5K</span>
+                                    <span class="badge time">🕒 7 ч</span>
                                 </div>
                             </div>
                         </a>
@@ -669,9 +595,9 @@
                             <div class="course-details">
                                 <h3 class="course-title">ООП Python: Часть 2</h3>
                                 <div class="course-meta">
-                                    <span class="badge">⭐ 4.9</span>
-                                    <span class="badge">👥 2.5K</span>
-                                    <span class="badge">🕒 9 ч</span>
+                                    <span class="badge star">⭐ 4.9</span>
+                                    <span class="badge users">👥 2.5K</span>
+                                    <span class="badge time">🕒 9 ч</span>
                                 </div>
                             </div>
                         </a>
@@ -681,11 +607,11 @@
                         <a href="https://stepik.org/course/262749" class="course-card">
                             <img src="https://cdn.stepik.net/media/cache/images/courses/262749/cover_kG42k3k/c7de78b8ae681e8bbd4abdef1f39ae1e.png" class="course-img" alt="cover">
                             <div class="course-details">
-                                <h3 class="course-title">Регулярные выражения (RegEx)</h3>
+                                <h3 class="course-title">Регулярные выражения</h3>
                                 <div class="course-meta">
-                                    <span class="badge">⭐ 5.0</span>
-                                    <span class="badge">👥 997</span>
-                                    <span class="badge">🕒 8 ч</span>
+                                    <span class="badge star">⭐ 5.0</span>
+                                    <span class="badge users">👥 997</span>
+                                    <span class="badge time">🕒 8 ч</span>
                                 </div>
                             </div>
                         </a>
@@ -697,9 +623,9 @@
                             <div class="course-details">
                                 <h3 class="course-title">Асинхронный Python</h3>
                                 <div class="course-meta">
-                                    <span class="badge">⭐ 4.9</span>
-                                    <span class="badge">👥 1.1K</span>
-                                    <span class="badge">🕒 6 ч</span>
+                                    <span class="badge star">⭐ 4.9</span>
+                                    <span class="badge users">👥 1.1K</span>
+                                    <span class="badge time">🕒 6 ч</span>
                                 </div>
                             </div>
                         </a>
@@ -718,9 +644,9 @@
                             <div class="course-details">
                                 <h3 class="course-title">SQL Часть 1. Основы</h3>
                                 <div class="course-meta">
-                                    <span class="badge">⭐ 5.0</span>
-                                    <span class="badge">👥 1.8K</span>
-                                    <span class="badge">🕒 4 ч</span>
+                                    <span class="badge star">⭐ 5.0</span>
+                                    <span class="badge users">👥 1.8K</span>
+                                    <span class="badge time">🕒 4 ч</span>
                                 </div>
                             </div>
                         </a>
@@ -732,9 +658,9 @@
                             <div class="course-details">
                                 <h3 class="course-title">SQL Часть 2. Продвинутые</h3>
                                 <div class="course-meta">
-                                    <span class="badge">⭐ 4.9</span>
-                                    <span class="badge">👥 1.4K</span>
-                                    <span class="badge">🕒 7 ч</span>
+                                    <span class="badge star">⭐ 4.9</span>
+                                    <span class="badge users">👥 1.4K</span>
+                                    <span class="badge time">🕒 7 ч</span>
                                 </div>
                             </div>
                         </a>
@@ -746,9 +672,9 @@
                             <div class="course-details">
                                 <h3 class="course-title">FastAPI для начинающих</h3>
                                 <div class="course-meta">
-                                    <span class="badge">⭐ 5.0</span>
-                                    <span class="badge">👥 1.7K</span>
-                                    <span class="badge">🕒 10 ч</span>
+                                    <span class="badge star">⭐ 5.0</span>
+                                    <span class="badge users">👥 1.7K</span>
+                                    <span class="badge time">🕒 10 ч</span>
                                 </div>
                             </div>
                         </a>
@@ -758,11 +684,11 @@
                         <a href="https://stepik.org/course/259625" class="course-card">
                             <img src="https://cdn.stepik.net/media/cache/images/courses/259625/cover_QOE4fVf/638bdc6f8ed4a459e7f09adc0bd3cf10.png" class="course-img" alt="cover">
                             <div class="course-details">
-                                <h3 class="course-title">Pytest: Уверенное тестирование</h3>
+                                <h3 class="course-title">Pytest: Тестирование</h3>
                                 <div class="course-meta">
-                                    <span class="badge">⭐ 4.9</span>
-                                    <span class="badge">👥 1.5K</span>
-                                    <span class="badge">🕒 6 ч</span>
+                                    <span class="badge star">⭐ 4.9</span>
+                                    <span class="badge users">👥 1.5K</span>
+                                    <span class="badge time">🕒 6 ч</span>
                                 </div>
                             </div>
                         </a>
@@ -774,9 +700,9 @@
                             <div class="course-details">
                                 <h3 class="course-title">Pandas для анализа данных</h3>
                                 <div class="course-meta">
-                                    <span class="badge">⭐ 5.0</span>
-                                    <span class="badge">👥 610</span>
-                                    <span class="badge">🕒 6 ч</span>
+                                    <span class="badge star">⭐ 5.0</span>
+                                    <span class="badge users">👥 610</span>
+                                    <span class="badge time">🕒 6 ч</span>
                                 </div>
                             </div>
                         </a>
@@ -789,9 +715,9 @@
                                 <h3 class="course-title">Функциональный Python</h3>
                                 <div class="course-meta">
                                     <span class="badge price">💰 100 ₽</span>
-                                    <span class="badge">⭐ 5.0</span>
-                                    <span class="badge">👥 115</span>
-                                    <span class="badge">🕒 6 ч</span>
+                                    <span class="badge star">⭐ 5.0</span>
+                                    <span class="badge users">👥 115</span>
+                                    <span class="badge time">🕒 6 ч</span>
                                 </div>
                             </div>
                         </a>
@@ -808,11 +734,11 @@
                         <a href="https://stepik.org/course/265914" class="course-card">
                             <img src="https://cdn.stepik.net/media/cache/images/courses/265914/cover_TlJqjPo/b0ebaaf85bcc82c19aa3648a11f9bda2.png" class="course-img" alt="cover">
                             <div class="course-details">
-                                <h3 class="course-title">Линейная алгебра для DS и ML</h3>
+                                <h3 class="course-title">Линейная алгебра (DS и ML)</h3>
                                 <div class="course-meta">
-                                    <span class="badge">⭐ 5.0</span>
-                                    <span class="badge">👥 689</span>
-                                    <span class="badge">🕒 9 ч</span>
+                                    <span class="badge star">⭐ 5.0</span>
+                                    <span class="badge users">👥 689</span>
+                                    <span class="badge time">🕒 9 ч</span>
                                 </div>
                             </div>
                         </a>
@@ -824,9 +750,9 @@
                             <div class="course-details">
                                 <h3 class="course-title">Комбинаторика на пальцах</h3>
                                 <div class="course-meta">
-                                    <span class="badge">⭐ 5.0</span>
-                                    <span class="badge">👥 657</span>
-                                    <span class="badge">🕒 4 ч</span>
+                                    <span class="badge star">⭐ 5.0</span>
+                                    <span class="badge users">👥 657</span>
+                                    <span class="badge time">🕒 4 ч</span>
                                 </div>
                             </div>
                         </a>
@@ -838,9 +764,9 @@
                             <div class="course-details">
                                 <h3 class="course-title">Теория вероятностей. Часть 1</h3>
                                 <div class="course-meta">
-                                    <span class="badge">⭐ 4.9</span>
-                                    <span class="badge">👥 674</span>
-                                    <span class="badge">🕒 8 ч</span>
+                                    <span class="badge star">⭐ 4.9</span>
+                                    <span class="badge users">👥 674</span>
+                                    <span class="badge time">🕒 8 ч</span>
                                 </div>
                             </div>
                         </a>
@@ -859,9 +785,9 @@
                             <div class="course-details">
                                 <h3 class="course-title">Python Pygame: До "Змейки"</h3>
                                 <div class="course-meta">
-                                    <span class="badge">⭐ 4.5</span>
-                                    <span class="badge">👥 934</span>
-                                    <span class="badge">🕒 2 ч</span>
+                                    <span class="badge star">⭐ 4.5</span>
+                                    <span class="badge users">👥 934</span>
+                                    <span class="badge time">🕒 2 ч</span>
                                 </div>
                             </div>
                         </a>
@@ -873,9 +799,9 @@
                             <div class="course-details">
                                 <h3 class="course-title">HTML5: Фундамент веб-разработки</h3>
                                 <div class="course-meta">
-                                    <span class="badge">⭐ 5.0</span>
-                                    <span class="badge">👥 282</span>
-                                    <span class="badge">🕒 4 ч</span>
+                                    <span class="badge star">⭐ 5.0</span>
+                                    <span class="badge users">👥 282</span>
+                                    <span class="badge time">🕒 4 ч</span>
                                 </div>
                             </div>
                         </a>
@@ -887,9 +813,9 @@
                             <div class="course-details">
                                 <h3 class="course-title">Тайм-менеджмент: как не выгореть</h3>
                                 <div class="course-meta">
-                                    <span class="badge">⭐ 5.0</span>
-                                    <span class="badge">👥 229</span>
-                                    <span class="badge">🕒 3 ч</span>
+                                    <span class="badge star">⭐ 5.0</span>
+                                    <span class="badge users">👥 229</span>
+                                    <span class="badge time">🕒 3 ч</span>
                                 </div>
                             </div>
                         </a>
@@ -910,49 +836,45 @@
             scrollProgress.style.width = progress + '%';
         });
 
-        // Create floating particles
+        // Create glowing dust particles
         const particlesContainer = document.getElementById('particles');
-        for (let i = 0; i < 30; i++) {
+        for (let i = 0; i < 40; i++) {
             const particle = document.createElement('div');
             particle.className = 'particle';
             particle.style.left = Math.random() * 100 + '%';
-            particle.style.top = Math.random() * 100 + '%';
-            particle.style.setProperty('--tx', (Math.random() - 0.5) * 200 + 'px');
-            particle.style.setProperty('--ty', (Math.random() - 0.5) * 200 + 'px');
-            particle.style.animationDelay = Math.random() * 20 + 's';
-            particle.style.animationDuration = (Math.random() * 10 + 15) + 's';
+            
+            // Randomize color to be either primary, secondary, or accent
+            const colors = ['var(--primary)', 'var(--secondary)', 'var(--accent)'];
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            particle.style.boxShadow = `0 0 10px ${randomColor}, 0 0 20px ${randomColor}`;
+            
+            particle.style.animationDelay = Math.random() * 15 + 's';
+            particle.style.animationDuration = (Math.random() * 15 + 10) + 's';
             particlesContainer.appendChild(particle);
         }
 
-        // 3D tilt effect on course cards
+        // 3D glow effect tied to mouse position
         document.querySelectorAll('.course-card').forEach(card => {
             card.addEventListener('mousemove', (e) => {
                 const rect = card.getBoundingClientRect();
                 const x = e.clientX - rect.left;
                 const y = e.clientY - rect.top;
                 
+                // Track mouse position for the gradient glow
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+                
+                // 3D Tilt calculation
                 const centerX = rect.width / 2;
                 const centerY = rect.height / 2;
+                const rotateX = (y - centerY) / 15;
+                const rotateY = (centerX - x) / 15;
                 
-                const rotateX = (y - centerY) / 10;
-                const rotateY = (centerX - x) / 10;
-                
-                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-5px) scale(1.02)`;
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px) scale(1.02)`;
             });
             
             card.addEventListener('mouseleave', () => {
                 card.style.transform = '';
-            });
-        });
-
-        // Smooth scroll for internal links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
             });
         });
     </script>
